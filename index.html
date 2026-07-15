@@ -2,293 +2,631 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Trade Time With Pranjal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+
+<!-- ============ SEO META TAGS ============ -->
+<title>Trade With Trader Gupta | Official Telegram Channel - Indian Stock Market Analysis</title>
+<meta name="description" content="Join Trader Gupta's official Telegram channel for daily Indian stock market analysis, Nifty & Bank Nifty stock calls, free trading education and live market alerts. Free to join, instant access.">
+<meta name="keywords" content="trader gupta, stock market telegram channel, nifty analysis, bank nifty calls, indian stock market, trading education, free stock tips">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Trader Gupta">
+<link rel="canonical" href="https://munaaftrade.github.io/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Trade With Trader Gupta | Official Telegram Channel">
+<meta property="og:description" content="Daily Indian stock market analysis, stock calls, free education & live alerts. Join free now.">
+<meta property="og:image" content="images/tradergupta.jpg">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Trade With Trader Gupta">
+<meta name="twitter:description" content="Official Telegram Channel - Indian Stock Market Analysis">
+
+<!-- Favicon (inline SVG, zero extra request) -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📈</text></svg>">
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
+/* =========================================================
+   ROOT VARIABLES — single source of truth for the theme
+   ========================================================= */
+:root{
+  --bg-deep:#070714;
+  --bg-navy:#0b0f2b;
+  --purple:#3a1c71;
+  --gold:#ffd76a;
+  --gold-2:#ffb62e;
+  --green:#22e07a;
+  --glass-bg:rgba(255,255,255,0.05);
+  --glass-border:rgba(255,255,255,0.12);
+  --text-main:#f4f4fb;
+  --text-dim:#a9a9c5;
+  --radius-lg:22px;
+  --radius-md:16px;
+  --ease:cubic-bezier(.19,1,.22,1);
 }
 
+/* =========================================================
+   RESET
+   ========================================================= */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
 body{
-background:#0b0b0b;
-color:white;
-overflow-x:hidden;
+  font-family:'Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;
+  background:var(--bg-deep);
+  color:var(--text-main);
+  overflow-x:hidden;
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+  line-height:1.5;
+}
+img{max-width:100%;display:block;}
+a{text-decoration:none;color:inherit;}
+button{font-family:inherit;border:none;cursor:pointer;background:none;color:inherit;}
+section{position:relative;z-index:2;padding:60px 18px;max-width:760px;margin:0 auto;}
+
+/* =========================================================
+   ANIMATED BACKGROUND — gradient + glowing blobs + particles
+   ========================================================= */
+.bg-wrap{position:fixed;inset:0;z-index:0;overflow:hidden;background:
+  radial-gradient(circle at 20% 10%, #1c1140 0%, transparent 55%),
+  radial-gradient(circle at 80% 90%, #10163a 0%, transparent 55%),
+  linear-gradient(160deg, var(--bg-deep) 0%, var(--bg-navy) 45%, #150a2e 100%);
+}
+.blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.45;will-change:transform;}
+.blob1{width:380px;height:380px;background:var(--purple);top:-100px;left:-100px;animation:float1 16s ease-in-out infinite;}
+.blob2{width:320px;height:320px;background:#ff8b2e;top:40%;right:-120px;animation:float2 18s ease-in-out infinite;}
+.blob3{width:300px;height:300px;background:#2251ff;bottom:-100px;left:20%;animation:float3 20s ease-in-out infinite;}
+.blob4{width:260px;height:260px;background:var(--gold);bottom:10%;right:10%;opacity:.18;animation:float1 14s ease-in-out infinite reverse;}
+
+@keyframes float1{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(40px,60px) scale(1.15);}}
+@keyframes float2{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(-50px,40px) scale(1.1);}}
+@keyframes float3{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(30px,-40px) scale(1.2);}}
+
+/* subtle floating particles layer */
+#particles{position:fixed;inset:0;z-index:1;pointer-events:none;}
+.particle{position:absolute;bottom:-10px;border-radius:50%;background:rgba(255,215,106,.55);box-shadow:0 0 8px rgba(255,215,106,.8);animation:rise linear infinite;}
+@keyframes rise{
+  0%{transform:translateY(0) translateX(0);opacity:0;}
+  10%{opacity:1;}
+  100%{transform:translateY(-110vh) translateX(var(--drift,20px));opacity:0;}
 }
 
-.ticker{
-background:#000;
-color:#00ff88;
-padding:12px;
-white-space:nowrap;
-overflow:hidden;
-font-weight:bold;
+/* =========================================================
+   TOP STOCK TICKER — infinite scroll
+   ========================================================= */
+.ticker-bar{
+  position:relative;z-index:3;
+  width:100%;background:#05050f;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  overflow:hidden;padding:9px 0;
+}
+.ticker-track{
+  display:flex;width:max-content;
+  animation:scroll-left 24s linear infinite;
+}
+.ticker-item{
+  display:flex;align-items:center;gap:6px;
+  padding:0 26px;font-size:13px;font-weight:600;
+  color:var(--text-dim);white-space:nowrap;
+  border-right:1px solid rgba(255,255,255,.08);
+}
+.ticker-item .up{color:var(--green);font-weight:700;}
+@keyframes scroll-left{
+  from{transform:translateX(0);}
+  to{transform:translateX(-50%);}
 }
 
-.ticker span{
-display:inline-block;
-padding-left:100%;
-animation:scroll 20s linear infinite;
+/* =========================================================
+   FADE-IN UTILITY ANIMATIONS (triggered via IntersectionObserver)
+   ========================================================= */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease),transform .8s var(--ease);}
+.reveal.left{transform:translateX(-32px);}
+.reveal.right{transform:translateX(32px);}
+.reveal.scale{transform:scale(.9);}
+.reveal.show{opacity:1;transform:translate(0,0) scale(1);}
+
+/* =========================================================
+   HERO SECTION
+   ========================================================= */
+.hero{text-align:center;padding-top:44px;}
+
+/* channel status glass badge */
+.status-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 18px;border-radius:50px;
+  background:var(--glass-bg);border:1px solid var(--glass-border);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  font-size:12.5px;font-weight:700;letter-spacing:.5px;
+  color:#c9ffd9;margin-bottom:30px;
+  box-shadow:0 4px 24px rgba(0,0,0,.25);
+}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:blink 1.4s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1;box-shadow:0 0 4px var(--green);}50%{opacity:.35;box-shadow:0 0 14px var(--green);}}
+
+/* profile image */
+.profile-wrap{position:relative;width:150px;height:150px;margin:0 auto 22px;animation:floaty 4.5s ease-in-out infinite;cursor:pointer;}
+@keyframes floaty{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+.profile-ring{
+  position:absolute;inset:-8px;border-radius:50%;
+  background:conic-gradient(from 0deg, var(--gold), #ff9a3c, var(--gold-2), var(--gold));
+  animation:spin 6s linear infinite;
+  filter:blur(1px);
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+.profile-glow{
+  position:absolute;inset:-18px;border-radius:50%;
+  background:radial-gradient(circle, rgba(255,215,106,.55), transparent 70%);
+  animation:pulse-glow 2.6s ease-in-out infinite;
+}
+@keyframes pulse-glow{0%,100%{opacity:.6;transform:scale(1);}50%{opacity:1;transform:scale(1.12);}}
+.profile-img{
+  position:relative;width:150px;height:150px;border-radius:50%;
+  overflow:hidden;border:3px solid var(--bg-deep);
+  background:#eef0f3;z-index:2; /* light bg matches logo so it blends inside the circle */
+  display:flex;align-items:center;justify-content:center;
+}
+.profile-img img{width:100%;height:100%;object-fit:cover;object-position:center;}
+.verified-badge{
+  position:absolute;bottom:2px;right:2px;z-index:3;
+  width:34px;height:34px;border-radius:50%;
+  background:var(--green);border:3px solid var(--bg-deep);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;color:#04180b;font-weight:900;
+  box-shadow:0 0 14px rgba(34,224,122,.8);
+  cursor:pointer;
 }
 
-@keyframes scroll{
-0%{transform:translateX(0);}
-100%{transform:translateX(-100%);}
+/* small heading */
+.eyebrow{
+  font-size:13px;font-weight:700;letter-spacing:2.5px;
+  color:var(--gold);text-transform:uppercase;margin-bottom:14px;
+  cursor:pointer;
 }
 
-.hero{
-text-align:center;
-padding:40px 20px;
-background:radial-gradient(circle,#1a1a1a,#000);
+/* main heading */
+.main-heading{
+  font-size:clamp(30px,8vw,48px);
+  font-weight:900;line-height:1.15;letter-spacing:-.5px;
+  margin-bottom:14px;cursor:pointer;
 }
-
-.status{
-display:inline-block;
-padding:12px 25px;
-border:1px solid #00ff88;
-border-radius:40px;
-color:#00ff88;
-box-shadow:0 0 20px #00ff88;
-margin-bottom:30px;
+.gold-text{
+  background:linear-gradient(90deg,#ffe9a8,var(--gold),var(--gold-2),#ffe9a8);
+  background-size:300% auto;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  display:inline-block;
+  animation:shine 4s linear infinite, glow-text 2.4s ease-in-out infinite alternate;
 }
-
-.profile-wrap{
-position:relative;
-width:220px;
-height:220px;
-margin:auto;
-}
-
-.profile-wrap::before{
-content:'';
-position:absolute;
-width:100%;
-height:100%;
-background:#00ff88;
-filter:blur(60px);
-opacity:.3;
-border-radius:50%;
-}
-
-.profile{
-position:relative;
-width:220px;
-height:220px;
-border-radius:50%;
-border:4px solid white;
-object-fit:cover;
-}
-
-h1{
-font-size:50px;
-margin-top:25px;
-}
-
-h2{
-font-size:70px;
-color:#f6c244;
+@keyframes shine{to{background-position:300% center;}}
+@keyframes glow-text{
+  from{filter:drop-shadow(0 0 6px rgba(255,215,106,.35));}
+  to{filter:drop-shadow(0 0 20px rgba(255,215,106,.75));}
 }
 
 .subtitle{
-margin-top:15px;
-color:#ccc;
-font-size:20px;
+  font-size:15.5px;color:var(--text-dim);font-weight:500;
+  margin-bottom:30px;
 }
 
-.features{
-display:flex;
-justify-content:center;
-flex-wrap:wrap;
-gap:15px;
-margin-top:35px;
+/* feature glass buttons */
+.feature-row{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:10px;
+  margin-bottom:34px;
+}
+.feature-btn{
+  padding:11px 18px;border-radius:50px;
+  background:var(--glass-bg);border:1px solid var(--glass-border);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  font-size:13.5px;font-weight:600;color:var(--text-main);
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease),background .35s;
+}
+.feature-btn:hover,.feature-btn:active{
+  transform:translateY(-4px) scale(1.03);
+  background:rgba(255,215,106,.12);
+  box-shadow:0 10px 30px rgba(255,183,46,.25);
 }
 
-.feature{
-padding:12px 22px;
-border:1px solid #444;
-border-radius:30px;
-background:#111;
+/* MAIN CTA */
+.cta-main{
+  display:block;width:100%;max-width:420px;margin:0 auto 16px;
+  padding:19px 20px;border-radius:18px;text-align:center;
+  background:linear-gradient(135deg,#ffe9a8,var(--gold) 45%,var(--gold-2));
+  background-size:220% 220%;
+  color:#241300;font-weight:800;
+  box-shadow:0 12px 40px rgba(255,183,46,.4);
+  animation:cta-gradient 5s ease infinite, cta-pulse 2.8s ease-in-out infinite;
+  transition:transform .25s var(--ease);
+  position:relative;overflow:hidden;
 }
+.cta-main:active{transform:scale(.97);}
+@keyframes cta-gradient{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+@keyframes cta-pulse{0%,100%{box-shadow:0 12px 40px rgba(255,183,46,.4);}50%{box-shadow:0 16px 55px rgba(255,183,46,.65);}}
+.cta-main .line1{font-size:18px;letter-spacing:.3px;margin-bottom:3px;}
+.cta-main .line2{font-size:12.5px;font-weight:600;opacity:.75;}
 
-.join{
-display:inline-block;
-margin-top:35px;
-background:#f6c244;
-color:black;
-padding:18px 35px;
-text-decoration:none;
-font-weight:bold;
-border-radius:15px;
-font-size:22px;
-box-shadow:0 0 25px #f6c244;
-transition:.3s;
+.join-info{
+  font-size:12.5px;color:var(--text-dim);font-weight:600;
+  margin-bottom:26px;letter-spacing:.2px;
 }
+.join-info span{color:var(--green);font-weight:700;}
 
-.join:hover{
-transform:scale(1.05);
+/* live join counter */
+.join-counter{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 20px;border-radius:50px;
+  background:var(--glass-bg);border:1px solid var(--glass-border);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  font-size:13.5px;font-weight:700;
 }
+.join-counter #counter{color:var(--gold);}
 
-.section{
-padding:60px 20px;
-max-width:1200px;
-margin:auto;
+/* =========================================================
+   WHAT YOU GET SECTION
+   ========================================================= */
+.section-heading{text-align:center;margin-bottom:34px;}
+.section-heading h2{
+  font-size:clamp(24px,6vw,32px);font-weight:900;letter-spacing:-.5px;
 }
-
-.section h3{
-text-align:center;
-font-size:40px;
-margin-bottom:40px;
+.section-heading .highlight{
+  background:linear-gradient(90deg,var(--gold),var(--gold-2));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
 }
+.section-heading p{color:var(--text-dim);font-size:14px;margin-top:8px;}
 
-.cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
+.card-grid{display:grid;grid-template-columns:1fr;gap:16px;}
+@media(min-width:600px){.card-grid{grid-template-columns:1fr 1fr;}}
+
+.feature-card{
+  padding:24px 20px;border-radius:var(--radius-lg);
+  background:var(--glass-bg);border:1px solid var(--glass-border);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  transition:transform .4s var(--ease),box-shadow .4s var(--ease),border-color .4s;
 }
-
-.card{
-background:#111;
-padding:25px;
-border-radius:15px;
-border:1px solid #222;
-transition:.3s;
+.feature-card:hover{
+  transform:translateY(-8px);
+  border-color:rgba(255,215,106,.4);
+  box-shadow:0 20px 45px rgba(0,0,0,.35);
 }
+.feature-card .icon{font-size:30px;margin-bottom:12px;display:block;}
+.feature-card h3{font-size:16.5px;font-weight:700;margin-bottom:8px;}
+.feature-card p{font-size:13.5px;color:var(--text-dim);line-height:1.6;}
 
-.card:hover{
-transform:translateY(-5px);
-box-shadow:0 0 20px rgba(0,255,136,.3);
+/* =========================================================
+   DISCLAIMER
+   ========================================================= */
+.disclaimer{
+  margin-top:50px;padding:24px 22px;border-radius:var(--radius-lg);
+  background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.08);
+  backdrop-filter:blur(10px);
 }
-
-.testimonial{
-background:#111;
-padding:20px;
-border-radius:15px;
-margin-bottom:20px;
+.disclaimer h4{
+  font-size:14.5px;font-weight:800;color:#ffcf6b;margin-bottom:10px;
+  display:flex;align-items:center;gap:6px;
 }
+.disclaimer p{font-size:12.5px;line-height:1.75;color:var(--text-dim);}
 
-.faq{
-background:#111;
-padding:20px;
-border-radius:15px;
-margin-bottom:15px;
-}
-
+/* =========================================================
+   FOOTER
+   ========================================================= */
 footer{
-text-align:center;
-padding:40px 20px;
-background:#050505;
+  position:relative;z-index:2;text-align:center;
+  padding:40px 18px 120px;color:var(--text-dim);font-size:12.5px;
+}
+footer .footer-cta{
+  display:inline-block;margin-bottom:14px;padding:12px 26px;border-radius:50px;
+  background:var(--glass-bg);border:1px solid var(--glass-border);
+  color:var(--gold);font-weight:700;font-size:13px;
+  transition:transform .3s var(--ease);
+}
+footer .footer-cta:hover{transform:translateY(-3px);}
+footer .heart{color:#ff5d7a;}
+
+/* =========================================================
+   FLOATING TELEGRAM ICON
+   ========================================================= */
+.floating-tg{
+  position:fixed;bottom:22px;right:18px;z-index:50;
+  width:58px;height:58px;border-radius:50%;
+  background:linear-gradient(135deg,#34c9ff,#1e88e5);
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;color:#fff;
+  box-shadow:0 8px 26px rgba(30,136,229,.55);
+  animation:floaty 3.4s ease-in-out infinite;
+  cursor:pointer;
+}
+.floating-tg::after{
+  content:'';position:absolute;inset:-6px;border-radius:50%;
+  border:2px solid rgba(52,201,255,.5);
+  animation:ring-pulse 2s ease-out infinite;
+}
+@keyframes ring-pulse{
+  0%{transform:scale(.85);opacity:.9;}
+  100%{transform:scale(1.5);opacity:0;}
 }
 
-@media(max-width:768px){
-h1{font-size:35px;}
-h2{font-size:48px;}
-.profile{
-width:180px;
-height:180px;
+/* =========================================================
+   RESPONSIVE TWEAKS
+   ========================================================= */
+@media(max-width:480px){
+  /* Compact hero spacing on phones so the main Telegram button
+     sits near the top of the screen (front & center), matching
+     the "button visible right away" requirement. */
+  .hero{padding-top:22px;}
+  .status-badge{margin-bottom:18px;padding:7px 15px;font-size:11.5px;}
+  .profile-wrap{width:112px;height:112px;margin-bottom:14px;}
+  .profile-ring{inset:-6px;}
+  .profile-glow{inset:-14px;}
+  .profile-img{width:112px;height:112px;}
+  .verified-badge{width:26px;height:26px;font-size:13px;}
+  .eyebrow{font-size:11.5px;letter-spacing:2px;margin-bottom:8px;}
+  .main-heading{font-size:26px;margin-bottom:8px;}
+  .subtitle{font-size:13.5px;margin-bottom:18px;}
+  .feature-row{gap:8px;margin-bottom:20px;}
+  .feature-btn{padding:9px 14px;font-size:12px;}
+  .cta-main{padding:16px 18px;margin-bottom:12px;}
+  .cta-main .line1{font-size:16px;}
+  .cta-main .line2{font-size:11.5px;}
 }
-.profile-wrap{
-width:180px;
-height:180px;
+@media(max-width:380px){
+  .main-heading{font-size:24px;}
+  .cta-main .line1{font-size:15px;}
 }
+@media(min-width:768px){
+  section{padding:80px 24px;}
+  .hero{padding-top:60px;}
+}
+
+/* reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;}
 }
 </style>
 </head>
-
 <body>
 
-<div class="ticker">
-<span>
-BANK NIFTY ▲ 1.12% &nbsp;&nbsp;
-NIFTY 50 ▲ 0.54% &nbsp;&nbsp;
-SENSEX ▲ 0.88% &nbsp;&nbsp;
-NIFTY IT ▲ 1.34%
-</span>
+<!-- ============================================================
+     ANIMATED BACKGROUND (fixed, behind everything)
+     ============================================================ -->
+<div class="bg-wrap" aria-hidden="true">
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+  <div class="blob blob3"></div>
+  <div class="blob blob4"></div>
+</div>
+<div id="particles" aria-hidden="true"></div>
+
+<!-- ============================================================
+     TOP STOCK TICKER
+     ============================================================ -->
+<div class="ticker-bar" role="marquee" aria-label="Live stock market ticker">
+  <div class="ticker-track" id="tickerTrack">
+    <!-- duplicated via JS for seamless infinite loop -->
+    <span class="ticker-item">NIFTY <span class="up">▲ 0.82%</span></span>
+    <span class="ticker-item">BANK NIFTY <span class="up">▲ 1.15%</span></span>
+    <span class="ticker-item">SENSEX <span class="up">▲ 0.74%</span></span>
+    <span class="ticker-item">FINNIFTY <span class="up">▲ 0.91%</span></span>
+    <span class="ticker-item">MIDCAP <span class="up">▲ 0.62%</span></span>
+  </div>
 </div>
 
+<!-- ============================================================
+     HERO SECTION
+     ============================================================ -->
+<main>
 <section class="hero">
 
-<div class="status">
-🟢 CHANNEL LIVE & ACTIVE
-</div>
+  <!-- channel live badge -->
+  <div class="status-badge reveal show">
+    <span class="dot"></span> CHANNEL LIVE &amp; ACTIVE
+  </div>
 
-<div class="profile-wrap">
-<img src="profile.jpg" class="profile">
-</div>
+  <!-- profile image with glow + verified badge -->
+  <div class="profile-wrap tg-link" id="profileWrap">
+    <div class="profile-ring"></div>
+    <div class="profile-glow"></div>
+    <div class="profile-img">
+      <img src="images/tradergupta.jpg" alt="Trader Gupta - Stock Market Analyst" loading="eager" width="150" height="150">
+    </div>
+    <div class="verified-badge tg-link" title="Verified" aria-label="Verified">✓</div>
+  </div>
 
-<h1>TRADE TIME WITH</h1>
-<h2>PRANJAL</h2>
+  <p class="eyebrow tg-link">Official Telegram Channel</p>
 
-<p class="subtitle">
-Stock Market Analysis • Indian Markets
-</p>
+  <h1 class="main-heading tg-link">TRADE WITH <span class="gold-text">TRADER GUPTA</span></h1>
 
-<div class="features">
-<div class="feature">📊 Daily Analysis</div>
-<div class="feature">🎓 Free Education</div>
-<div class="feature">⚡ Live Alerts</div>
-</div>
+  <p class="subtitle">Stock Market Analysis • Indian Markets</p>
 
-<a href="#" class="join">
-✈️ JOIN TELEGRAM CHANNEL
-</a>
+  <!-- feature glass buttons -->
+  <div class="feature-row">
+    <div class="feature-btn">📊 Daily Analysis</div>
+    <div class="feature-btn">🎓 Free Education</div>
+    <div class="feature-btn">⚡ Live Alerts</div>
+  </div>
 
-</section>
+  <!-- MAIN TELEGRAM CTA -->
+  <a href="https://telegram.me/+0_sSQPwCZgBlNTE1" class="cta-main" id="mainCta">
+    <div class="line1">✈️ JOIN TELEGRAM CHANNEL</div>
+    <div class="line2">Tap Karo &amp; Abhi Join Karo</div>
+  </a>
 
-<section class="section">
-<h3>WHAT YOU GET</h3>
+  <p class="join-info"><span>✓</span> Free to Join &nbsp; <span>✓</span> No Charges &nbsp; <span>✓</span> Instant Access</p>
 
-<div class="cards">
-
-<div class="card">📈 Daily Market Analysis</div>
-<div class="card">⚡ Intraday Setups</div>
-<div class="card">📊 Swing Trading Ideas</div>
-<div class="card">🎓 Educational Content</div>
-<div class="card">📰 Market Updates</div>
-<div class="card">🤝 Community Support</div>
-
-</div>
-</section>
-
-<section class="section">
-<h3>REVIEWS</h3>
-
-<div class="testimonial">
-★★★★★ Excellent market updates and educational content.
-</div>
-
-<div class="testimonial">
-★★★★★ Very useful for beginners and active traders.
-</div>
+  <div class="join-counter">
+    🔥 <span id="counter">18000</span> logon ne abhi join kiya
+  </div>
 
 </section>
 
-<section class="section">
-<h3>FAQ</h3>
+<!-- ============================================================
+     WHAT YOU GET SECTION
+     ============================================================ -->
+<section id="whatyouget">
+  <div class="section-heading reveal">
+    <h2>WHAT YOU <span class="highlight">GET</span></h2>
+    <p>Everything you need to trade smarter, in one place.</p>
+  </div>
 
-<div class="faq">
-Q. Is the Telegram channel free?<br>
-A. Yes.
-</div>
-
-<div class="faq">
-Q. Do you provide market analysis?<br>
-A. Yes.
-</div>
-
+  <div class="card-grid">
+    <div class="feature-card reveal left">
+      <span class="icon">📈</span>
+      <h3>Daily Market Analysis</h3>
+      <p>Pre-market &amp; post-market breakdowns every trading day.</p>
+    </div>
+    <div class="feature-card reveal right">
+      <span class="icon">🎯</span>
+      <h3>Stock Calls</h3>
+      <p>Clear entry, target &amp; stop-loss levels.</p>
+    </div>
+    <div class="feature-card reveal left">
+      <span class="icon">📚</span>
+      <h3>Free Education</h3>
+      <p>Learn trading from basics to advanced.</p>
+    </div>
+    <div class="feature-card reveal right">
+      <span class="icon">⚡</span>
+      <h3>Market Updates</h3>
+      <p>Instant alerts when opportunities arise.</p>
+    </div>
+  </div>
 </section>
 
+<!-- ============================================================
+     DISCLAIMER
+     ============================================================ -->
+<section>
+  <div class="disclaimer reveal scale">
+    <h4>⚠ Disclaimer</h4>
+    <p>
+      All content shared on this channel is purely for educational and informational purposes.
+      Trading in stocks and derivatives involves risk.
+      Please consult a SEBI-registered financial advisor before making investment decisions.
+    </p>
+  </div>
+</section>
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
 <footer>
-
-<h3>Join Telegram Today</h3>
-
-<a href="#" class="join">
-JOIN NOW
-</a>
-
+  <a href="https://telegram.me/+0_sSQPwCZgBlNTE1" class="footer-cta tg-link">✈️ Join Telegram Channel Now</a>
+  <p>© 2026 Trader Gupta</p>
+  <p>Made with <span class="heart">❤️</span> for Indian Traders</p>
 </footer>
+
+<!-- ============================================================
+     FLOATING TELEGRAM ICON (always visible, quick access)
+     ============================================================ -->
+<div class="floating-tg tg-link" aria-label="Join Telegram Channel">✈️</div>
+
+<!-- ============================================================
+     VANILLA JAVASCRIPT — lightweight, no dependencies
+     ============================================================ -->
+<script>
+(function(){
+  "use strict";
+
+  var TELEGRAM_URL = "https://telegram.me/+0_sSQPwCZgBlNTE1";
+
+  /* ---------------------------------------------------------
+     1) INSTANT TELEGRAM REDIRECT
+     Every element with class "tg-link" opens the channel
+     immediately on click/tap — no delay, no loader.
+     --------------------------------------------------------- */
+  document.querySelectorAll(".tg-link").forEach(function(el){
+    el.style.cursor = "pointer";
+    el.addEventListener("click", function(e){
+      // main CTA is an <a>, let default browser action handle it too,
+      // but force it for reliability across mobile browsers.
+      window.open(TELEGRAM_URL, "_blank");
+    }, { passive:true });
+  });
+
+  /* ---------------------------------------------------------
+     2) SEAMLESS INFINITE TICKER
+     Duplicate ticker items once so the CSS 50% translate loop
+     is perfectly seamless, regardless of content width.
+     --------------------------------------------------------- */
+  var track = document.getElementById("tickerTrack");
+  if(track){
+    track.innerHTML += track.innerHTML; // duplicate for seamless loop
+  }
+
+  /* ---------------------------------------------------------
+     3) LIVE JOIN COUNTER — smooth count-up animation
+     Animates from 18000 to 18432 using requestAnimationFrame
+     for a buttery 60fps feel with easing.
+     --------------------------------------------------------- */
+  var counterEl = document.getElementById("counter");
+  function animateCounter(el, start, end, duration){
+    var startTime = null;
+    function easeOutQuad(t){ return t * (2 - t); }
+    function step(timestamp){
+      if(!startTime) startTime = timestamp;
+      var progress = Math.min((timestamp - startTime) / duration, 1);
+      var eased = easeOutQuad(progress);
+      var value = Math.floor(start + (end - start) * eased);
+      el.textContent = value.toLocaleString("en-IN");
+      if(progress < 1){
+        requestAnimationFrame(step);
+      } else {
+        el.textContent = end.toLocaleString("en-IN");
+      }
+    }
+    requestAnimationFrame(step);
+  }
+  if(counterEl){
+    // slight delay so it's visible once page settles
+    setTimeout(function(){
+      animateCounter(counterEl, 18000, 18432, 2200);
+    }, 500);
+  }
+
+  /* ---------------------------------------------------------
+     4) SCROLL REVEAL ANIMATIONS
+     Uses IntersectionObserver (native, no library) to add
+     "show" class when elements enter the viewport.
+     --------------------------------------------------------- */
+  var revealEls = document.querySelectorAll(".reveal");
+  if("IntersectionObserver" in window){
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add("show");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold:0.15, rootMargin:"0px 0px -40px 0px" });
+    revealEls.forEach(function(el){ observer.observe(el); });
+  } else {
+    // fallback for very old browsers
+    revealEls.forEach(function(el){ el.classList.add("show"); });
+  }
+
+  /* ---------------------------------------------------------
+     5) LIGHTWEIGHT FLOATING PARTICLES
+     Generates a small number of CSS-driven particles for a
+     premium ambient effect without any heavy canvas/library.
+     --------------------------------------------------------- */
+  var particleContainer = document.getElementById("particles");
+  if(particleContainer){
+    var count = window.innerWidth < 600 ? 12 : 22; // fewer on mobile for perf
+    for(var i = 0; i < count; i++){
+      var p = document.createElement("div");
+      p.className = "particle";
+      var size = Math.random() * 3 + 2;
+      p.style.width = size + "px";
+      p.style.height = size + "px";
+      p.style.left = Math.random() * 100 + "%";
+      p.style.setProperty("--drift", (Math.random() * 80 - 40) + "px");
+      p.style.animationDuration = (Math.random() * 8 + 10) + "s";
+      p.style.animationDelay = (Math.random() * 10) + "s";
+      particleContainer.appendChild(p);
+    }
+  }
+
+})();
+</script>
 
 </body>
 </html>
